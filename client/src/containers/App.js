@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import audio_compile_src from '../assets/audio/airhorn.mp3'
 
 import '../styles/App.css'
 
@@ -42,6 +43,8 @@ class App extends Component {
   }
 
   onPressRun () {
+    // Play compiling sound on compile request
+    new Audio(audio_compile_src).play()
     this.props.compile(this.props.code[this.props.lang], this.props.lang, this.props.token)
   }
 

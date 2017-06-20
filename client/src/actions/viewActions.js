@@ -1,6 +1,9 @@
 import * as API from './api/'
 import * as types from '../constants'
 
+import audio_wrong_src from '../assets/audio/wrong-answer.mp3'
+import audio_correct_src from '../assets/audio/correct-answer.mp3'
+
 export function compile (code, lang, token) {
   return async (dispatch) => {
     dispatch({
@@ -9,6 +12,16 @@ export function compile (code, lang, token) {
     try {
       const res = await API.compile(code, lang, token)
       const json = await res.json()
+
+      // Play error sound on failure
+      if(!!json.stderr) {
+        setTimeout(()=> {new Audio(audio_wrong_src).play()}, 3000)
+      }
+      // Play success sound on success
+      else {
+        setTimeout(()=> {new Audio(audio_correct_src).play()}, 3000)
+      }
+
       dispatch({
         type: types.COMPILE_SUCCESS,
         payload: json,
